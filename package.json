@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "image-magick-aws-lambda-layer",
+  "license": "ImageMagick",
+  "version": "1.0.0",
+  "engines": {
+    "npm": ">= 7.0.0"
+  },
+  "description": "AWS Lambda layer to provide ImaegMagick",
+  "scripts": {
+    "prebuild": "rimraf -r build && mkdir -p build/bin",
+    "build": "docker build -t image-magick-aws-lambda-layer . && CID=$(docker create image-magick-aws-lambda-layer:latest) && docker cp ${CID}:/opt/bin/ build && cd build && zip --symlinks -r artifacts.zip bin",
+    "prerelease": "npm run build",
+    "release": "sls deploy"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "serverless": "^2.11.1"
+  }
+}
