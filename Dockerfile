@@ -9,9 +9,9 @@ RUN mkdir -p $WORK_DIR
 WORKDIR $WORK_DIR
 
 # LCMS2
-ENV LCMS2_VERSION 2.9
+ENV LCMS2_VERSION 2.11
 ENV LCMS2_SOURCE lcms2-${LCMS2_VERSION}.tar.gz
-ENV LCMS2_MD5 8de1b7724f578d2995c8fdfa35c3ad0e
+ENV LCMS2_MD5 598dae499e58f877ff6788254320f43e
 
 RUN curl -LO https://downloads.sourceforge.net/lcms/${LCMS2_SOURCE} && \
   (test "$(md5sum ${LCMS2_SOURCE})" = "${LCMS2_MD5}  ${LCMS2_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
@@ -27,7 +27,7 @@ RUN curl -LO https://downloads.sourceforge.net/lcms/${LCMS2_SOURCE} && \
   rm -rf lcms2*
 
 # NASM (for libjpeg-turbo)
-ENV NASM_VERSION 2.14.02
+ENV NASM_VERSION 2.15.05
 ENV NASM_SOURCE nasm-${NASM_VERSION}.tar.gz
 
 RUN curl -LO https://www.nasm.us/pub/nasm/releasebuilds/${NASM_VERSION}/${NASM_SOURCE} && \
@@ -42,9 +42,9 @@ RUN curl -LO https://www.nasm.us/pub/nasm/releasebuilds/${NASM_VERSION}/${NASM_S
   rm -rf nasm*
 
 # libjpeg-turbo
-ENV LIBJPEG_TURBO_VERSION 2.0.4
+ENV LIBJPEG_TURBO_VERSION 2.0.5
 ENV LIBJPEG_TURBO_SOURCE libjpeg-turbo-${LIBJPEG_TURBO_VERSION}.tar.gz
-ENV LIBJPEG_TURBO_MD5 d01d9e0c28c27bc0de9f4e2e8ff49855
+ENV LIBJPEG_TURBO_MD5 3a7dc293918775fc933f81e2bce36464
 
 RUN curl -LO https://downloads.sourceforge.net/libjpeg-turbo/${LIBJPEG_TURBO_SOURCE} && \
   (test "$(md5sum ${LIBJPEG_TURBO_SOURCE})" = "${LIBJPEG_TURBO_MD5}  ${LIBJPEG_TURBO_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
@@ -87,8 +87,10 @@ RUN curl -LO http://prdownloads.sourceforge.net/libpng/${LIBPNG_SOURCE} && \
 # bzip2
 ENV BZIP2_VERSION 1.0.6
 ENV BZIP2_SOURCE bzip2-${BZIP2_VERSION}.tar.gz
+ENV BZIP2_MD5 00b516f4704d4a7cb50a1d97e6e8e15b
 
 RUN curl -LO http://prdownloads.sourceforge.net/bzip2/${BZIP2_SOURCE} && \
+  (test "$(md5sum ${BZIP2_SOURCE})" = "${BZIP2_MD5}  ${BZIP2_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
   tar xf ${BZIP2_SOURCE} && \
   cd bzip2* && \
   make libbz2.a && \
@@ -99,8 +101,10 @@ RUN curl -LO http://prdownloads.sourceforge.net/bzip2/${BZIP2_SOURCE} && \
 # libtiff
 ENV LIBTIFF_VERSION 4.1.0
 ENV LIBTIFF_SOURCE tiff-${LIBTIFF_VERSION}.tar.gz
+ENV LIBTIFF_MD5 2165e7aba557463acc0664e71a3ed424
 
 RUN curl -LO http://download.osgeo.org/libtiff/${LIBTIFF_SOURCE} && \
+  (test "$(md5sum ${LIBTIFF_SOURCE})" = "${LIBTIFF_MD5}  ${LIBTIFF_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
   tar xf ${LIBTIFF_SOURCE} && \
   cd tiff* && \
   PKG_CONFIG_PATH=${BUILD_DIR}/lib/pkgconfig ./configure \
@@ -118,8 +122,10 @@ RUN curl -LO http://download.osgeo.org/libtiff/${LIBTIFF_SOURCE} && \
 # libwebp
 ENV LIBWEBP_VERSION 1.1.0
 ENV LIBWEBP_SOURCE libwebp-${LIBWEBP_VERSION}.tar.gz
+ENV LIBWEBP_MD5 35831dd0f8d42119691eb36f2b9d23b7
 
 RUN curl -L https://github.com/webmproject/libwebp/archive/v${LIBWEBP_VERSION}.tar.gz -o ${LIBWEBP_SOURCE} && \
+  (test "$(md5sum ${LIBWEBP_SOURCE})" = "${LIBWEBP_MD5}  ${LIBWEBP_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
   tar xf ${LIBWEBP_SOURCE} && \
   cd libwebp* && \
   ./autogen.sh && \
@@ -138,8 +144,10 @@ RUN curl -L https://github.com/webmproject/libwebp/archive/v${LIBWEBP_VERSION}.t
 # OpenJPEG
 ENV OPENJP2_VERSION 2.3.1
 ENV OPENJP2_SOURCE openjp2-${OPENJP2_VERSION}.tar.gz
+ENV OPENJP2_MD5 3b9941dc7a52f0376694adb15a72903f
 
 RUN curl -L https://github.com/uclouvain/openjpeg/archive/v${OPENJP2_VERSION}.tar.gz -o ${OPENJP2_SOURCE} && \
+  (test "$(md5sum ${OPENJP2_SOURCE})" = "${OPENJP2_MD5}  ${OPENJP2_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
   tar xf ${OPENJP2_SOURCE} && \
   cd openjpeg* && \
   mkdir -p build && \
@@ -155,9 +163,9 @@ RUN curl -L https://github.com/uclouvain/openjpeg/archive/v${OPENJP2_VERSION}.ta
   rm -rf openjpeg*
 
 # ImageMagick
-ENV IMAGEMAGICK_VERSION 7.0.10-7
+ENV IMAGEMAGICK_VERSION 7.0.10-38
 ENV IMAGEMAGICK_SOURCE ImageMagick-${IMAGEMAGICK_VERSION}.tar.gz
-ENV IMAGEMAGICK_SHA256 2c5ab45b32902aae675512c54c0a5b9e61e55519e273e8df0dad7ec06a9477bb
+ENV IMAGEMAGICK_SHA256 b3299d8d19307ba37c1cddf7c9490129060bf9672b1af50d326c88b83ad80363
 
 RUN curl -LO https://imagemagick.org/download/${IMAGEMAGICK_SOURCE} && \
   (test "$(sha256sum ${IMAGEMAGICK_SOURCE})" = "${IMAGEMAGICK_SHA256}  ${IMAGEMAGICK_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \

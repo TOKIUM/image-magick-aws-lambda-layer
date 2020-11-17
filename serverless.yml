@@ -8,6 +8,6 @@ provider:
 layers:
   image-magick-aws-lambda-layer:
     name: image-magick-aws-lambda-layer
-    description: ImageMagick v7.0.10-7
+    description: ImageMagick v7.0.10-38
     package:
       artifact: build/artifacts.zip
