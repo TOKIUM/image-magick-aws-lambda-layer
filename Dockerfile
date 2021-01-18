@@ -162,10 +162,37 @@ RUN curl -L https://github.com/uclouvain/openjpeg/archive/v${OPENJP2_VERSION}.ta
   cd ../.. && \
   rm -rf openjpeg*
 
+# XML
+ENV LIBXML2_VERSION 2.9.10
+ENV LIBXML2_SOURCE libxml2-${LIBXML2_VERSION}.tar.gz
+ENV LIBXML2_PATCH libxml2-security.patch
+ENV LIBXML2_MD5 10942a1dc23137a8aa07f0639cbfece5
+
+RUN curl -L http://xmlsoft.org/sources/libxml2-${LIBXML2_VERSION}.tar.gz -o ${LIBXML2_SOURCE} && \
+  curl -L http://www.linuxfromscratch.org/patches/blfs/svn/libxml2-${LIBXML2_VERSION}-security_fixes-1.patch -o ${LIBXML2_PATCH} && \
+  (test "$(md5sum ${LIBXML2_SOURCE})" = "${LIBXML2_MD5}  ${LIBXML2_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
+  tar xf ${LIBXML2_SOURCE} && \
+  cd libxml2* && \
+  patch -p1 -i ../${LIBXML2_PATCH} && \
+  sed -i '/if Py/{s/Py/(Py/;s/)/))/}' python/{types.c,libxml.c} && \
+  PKG_CONFIG_PATH=${BUILD_DIR}/lib/pkgconfig ./configure \
+    CPPFLAGS=-I${BUILD_DIR}/include \
+    LDFLAGS=-L${BUILD_DIR}/lib \
+      --disable-dependency-tracking \
+      --disable-shared \
+      --enable-static \
+      --with-history \
+      --with-python=/usr/bin/python3 \
+      --prefix=${BUILD_DIR} && \
+  make && \
+  make install && \
+  cd .. && \
+  rm -rf libxml2*
+
 # ImageMagick
-ENV IMAGEMAGICK_VERSION 7.0.10-38
+ENV IMAGEMAGICK_VERSION 7.0.10-58
 ENV IMAGEMAGICK_SOURCE ImageMagick-${IMAGEMAGICK_VERSION}.tar.gz
-ENV IMAGEMAGICK_SHA256 b3299d8d19307ba37c1cddf7c9490129060bf9672b1af50d326c88b83ad80363
+ENV IMAGEMAGICK_SHA256 1c3baaa5c0f9fb11ca35ac00e513226671061a53b46449f98e0ad9b0d92edd99
 
 RUN curl -LO https://imagemagick.org/download/${IMAGEMAGICK_SOURCE} && \
   (test "$(sha256sum ${IMAGEMAGICK_SOURCE})" = "${IMAGEMAGICK_SHA256}  ${IMAGEMAGICK_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
