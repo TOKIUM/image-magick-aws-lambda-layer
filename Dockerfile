@@ -9,9 +9,9 @@ RUN mkdir -p $WORK_DIR
 WORKDIR $WORK_DIR
 
 # LCMS2
-ENV LCMS2_VERSION 2.11
+ENV LCMS2_VERSION 2.12
 ENV LCMS2_SOURCE lcms2-${LCMS2_VERSION}.tar.gz
-ENV LCMS2_MD5 598dae499e58f877ff6788254320f43e
+ENV LCMS2_MD5 8cb583c8447461896320b43ea9a688e0
 
 RUN curl -LO https://downloads.sourceforge.net/lcms/${LCMS2_SOURCE} && \
   (test "$(md5sum ${LCMS2_SOURCE})" = "${LCMS2_MD5}  ${LCMS2_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
@@ -42,9 +42,9 @@ RUN curl -LO https://www.nasm.us/pub/nasm/releasebuilds/${NASM_VERSION}/${NASM_S
   rm -rf nasm*
 
 # libjpeg-turbo
-ENV LIBJPEG_TURBO_VERSION 2.0.5
+ENV LIBJPEG_TURBO_VERSION 2.0.6
 ENV LIBJPEG_TURBO_SOURCE libjpeg-turbo-${LIBJPEG_TURBO_VERSION}.tar.gz
-ENV LIBJPEG_TURBO_MD5 3a7dc293918775fc933f81e2bce36464
+ENV LIBJPEG_TURBO_MD5 4cada3f0bdc93d826fa31bf9e4469ef6
 
 RUN curl -LO https://downloads.sourceforge.net/libjpeg-turbo/${LIBJPEG_TURBO_SOURCE} && \
   (test "$(md5sum ${LIBJPEG_TURBO_SOURCE})" = "${LIBJPEG_TURBO_MD5}  ${LIBJPEG_TURBO_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
@@ -85,11 +85,11 @@ RUN curl -LO http://prdownloads.sourceforge.net/libpng/${LIBPNG_SOURCE} && \
   rm -rf libpng*
 
 # bzip2
-ENV BZIP2_VERSION 1.0.6
+ENV BZIP2_VERSION 1.0.8
 ENV BZIP2_SOURCE bzip2-${BZIP2_VERSION}.tar.gz
-ENV BZIP2_MD5 00b516f4704d4a7cb50a1d97e6e8e15b
+ENV BZIP2_MD5 67e051268d0c475ea773822f7500d0e5
 
-RUN curl -LO http://prdownloads.sourceforge.net/bzip2/${BZIP2_SOURCE} && \
+RUN curl -LO https://sourceware.org/pub/bzip2/${BZIP2_SOURCE} && \
   (test "$(md5sum ${BZIP2_SOURCE})" = "${BZIP2_MD5}  ${BZIP2_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
   tar xf ${BZIP2_SOURCE} && \
   cd bzip2* && \
@@ -99,9 +99,9 @@ RUN curl -LO http://prdownloads.sourceforge.net/bzip2/${BZIP2_SOURCE} && \
   rm -rf bzip2*
 
 # libtiff
-ENV LIBTIFF_VERSION 4.1.0
+ENV LIBTIFF_VERSION 4.2.0
 ENV LIBTIFF_SOURCE tiff-${LIBTIFF_VERSION}.tar.gz
-ENV LIBTIFF_MD5 2165e7aba557463acc0664e71a3ed424
+ENV LIBTIFF_MD5 2bbf6db1ddc4a59c89d6986b368fc063
 
 RUN curl -LO http://download.osgeo.org/libtiff/${LIBTIFF_SOURCE} && \
   (test "$(md5sum ${LIBTIFF_SOURCE})" = "${LIBTIFF_MD5}  ${LIBTIFF_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
@@ -120,9 +120,9 @@ RUN curl -LO http://download.osgeo.org/libtiff/${LIBTIFF_SOURCE} && \
   rm -rf tiff*
 
 # libwebp
-ENV LIBWEBP_VERSION 1.1.0
+ENV LIBWEBP_VERSION 1.2.0
 ENV LIBWEBP_SOURCE libwebp-${LIBWEBP_VERSION}.tar.gz
-ENV LIBWEBP_MD5 35831dd0f8d42119691eb36f2b9d23b7
+ENV LIBWEBP_MD5 d0df15b4235d024652841f2f926f72b4
 
 RUN curl -L https://github.com/webmproject/libwebp/archive/v${LIBWEBP_VERSION}.tar.gz -o ${LIBWEBP_SOURCE} && \
   (test "$(md5sum ${LIBWEBP_SOURCE})" = "${LIBWEBP_MD5}  ${LIBWEBP_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
@@ -142,9 +142,9 @@ RUN curl -L https://github.com/webmproject/libwebp/archive/v${LIBWEBP_VERSION}.t
   rm -rf libwebp*
 
 # OpenJPEG
-ENV OPENJP2_VERSION 2.3.1
+ENV OPENJP2_VERSION 2.4.0
 ENV OPENJP2_SOURCE openjp2-${OPENJP2_VERSION}.tar.gz
-ENV OPENJP2_MD5 3b9941dc7a52f0376694adb15a72903f
+ENV OPENJP2_MD5 4d388298335947367e91f1d100468af1
 
 RUN curl -L https://github.com/uclouvain/openjpeg/archive/v${OPENJP2_VERSION}.tar.gz -o ${OPENJP2_SOURCE} && \
   (test "$(md5sum ${OPENJP2_SOURCE})" = "${OPENJP2_MD5}  ${OPENJP2_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
@@ -162,12 +162,40 @@ RUN curl -L https://github.com/uclouvain/openjpeg/archive/v${OPENJP2_VERSION}.ta
   cd ../.. && \
   rm -rf openjpeg*
 
-# ImageMagick
-ENV IMAGEMAGICK_VERSION 7.0.10-38
-ENV IMAGEMAGICK_SOURCE ImageMagick-${IMAGEMAGICK_VERSION}.tar.gz
-ENV IMAGEMAGICK_SHA256 b3299d8d19307ba37c1cddf7c9490129060bf9672b1af50d326c88b83ad80363
+# XML
+ENV LIBXML2_VERSION 2.9.10
+ENV LIBXML2_SOURCE libxml2-${LIBXML2_VERSION}.tar.gz
+ENV LIBXML2_PATCH libxml2-security.patch
+ENV LIBXML2_MD5 10942a1dc23137a8aa07f0639cbfece5
 
-RUN curl -LO https://imagemagick.org/download/${IMAGEMAGICK_SOURCE} && \
+RUN curl -L http://xmlsoft.org/sources/libxml2-${LIBXML2_VERSION}.tar.gz -o ${LIBXML2_SOURCE} && \
+  curl -L http://www.linuxfromscratch.org/patches/blfs/svn/libxml2-${LIBXML2_VERSION}-security_fixes-1.patch -o ${LIBXML2_PATCH} && \
+  (test "$(md5sum ${LIBXML2_SOURCE})" = "${LIBXML2_MD5}  ${LIBXML2_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
+  tar xf ${LIBXML2_SOURCE} && \
+  cd libxml2* && \
+  patch -p1 -i ../${LIBXML2_PATCH} && \
+  sed -i '/if Py/{s/Py/(Py/;s/)/))/}' python/{types.c,libxml.c} && \
+  PKG_CONFIG_PATH=${BUILD_DIR}/lib/pkgconfig ./configure \
+    CPPFLAGS=-I${BUILD_DIR}/include \
+    LDFLAGS=-L${BUILD_DIR}/lib \
+      --disable-dependency-tracking \
+      --disable-shared \
+      --enable-static \
+      --with-history \
+      --with-python=/usr/bin/python3 \
+      --prefix=${BUILD_DIR} && \
+  make && \
+  make install && \
+  cd .. && \
+  rm -rf libxml2*
+
+# ImageMagick
+ENV IMAGEMAGICK_VERSION 7.0.11-3
+ENV IMAGEMAGICK_SOURCE ImageMagick-${IMAGEMAGICK_VERSION}.tar.gz
+ENV IMAGEMAGICK_SHA256 4b5b1b6c1cc81ab4b1265a8010c340eb5c08747ff05c5ebfa30bb2d0a83ad78d
+
+RUN curl -LO https://download.imagemagick.org/ImageMagick/download/releases/${IMAGEMAGICK_SOURCE} && \
+  sha256sum ${IMAGEMAGICK_SOURCE} && \
   (test "$(sha256sum ${IMAGEMAGICK_SOURCE})" = "${IMAGEMAGICK_SHA256}  ${IMAGEMAGICK_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
   tar xf ${IMAGEMAGICK_SOURCE} && \
   cd ImageMagick* && \
