@@ -4,6 +4,7 @@ ENV WORK_DIR /usr/local/work
 ENV BUILD_DIR $WORK_DIR/build
 ENV TARGET_DIR /opt
 
+
 RUN mkdir -p $WORK_DIR
 
 WORKDIR $WORK_DIR
@@ -12,6 +13,8 @@ WORKDIR $WORK_DIR
 ENV LCMS2_VERSION 2.12
 ENV LCMS2_SOURCE lcms2-${LCMS2_VERSION}.tar.gz
 ENV LCMS2_MD5 8cb583c8447461896320b43ea9a688e0
+
+RUN yum -y install ca-certificates
 
 RUN curl -LO https://downloads.sourceforge.net/lcms/${LCMS2_SOURCE} && \
   (test "$(md5sum ${LCMS2_SOURCE})" = "${LCMS2_MD5}  ${LCMS2_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
@@ -187,8 +190,8 @@ RUN curl -L http://xmlsoft.org/sources/libxml2-${LIBXML2_VERSION}.tar.gz -o ${LI
 
 # ImageMagick
 ENV IMAGEMAGICK_VERSION 7.1.0-2
-ENV IMAGEMAGICK_SOURCE ImageMagick-${IMAGEMAGICK_VERSION}.tar.gz
-ENV IMAGEMAGICK_SHA256 fe8e0781284b99c9ae817c385541db6610c47a5c534e0fd35958d630f194571d
+ENV IMAGEMAGICK_SOURCE ImageMagick-${IMAGEMAGICK_VERSION}.tar.xz
+ENV IMAGEMAGICK_SHA256 039006f616bb326598e7b910932694e2a3ca925586560e1b8d153a7048f52980
 
 RUN curl -LO https://download.imagemagick.org/ImageMagick/download/releases/${IMAGEMAGICK_SOURCE} && \
   sha256sum ${IMAGEMAGICK_SOURCE} && \
