@@ -4,7 +4,6 @@ ENV WORK_DIR /usr/local/work
 ENV BUILD_DIR $WORK_DIR/build
 ENV TARGET_DIR /opt
 
-
 RUN mkdir -p $WORK_DIR
 
 WORKDIR $WORK_DIR
