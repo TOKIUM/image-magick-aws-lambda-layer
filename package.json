@@ -4,7 +4,8 @@
   "license": "ImageMagick",
   "version": "1.0.0",
   "engines": {
-    "npm": ">= 7.0.0"
+    "npm": ">= 7.0.0",
+    "node": ">=18.17.0"
   },
   "description": "AWS Lambda layer to provide ImaegMagick",
   "scripts": {
@@ -15,6 +16,6 @@
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
-    "serverless": "^2.48.0"
+    "serverless": "4.44.0"
   }
 }

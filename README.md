@@ -7,9 +7,14 @@ Build and publish an AWS Lambda Layer which provides ImageMagick.
 - Node
 
 ## Release
-A layer called `image-magick-aws-lambda-layer` will be published with [Serverless Framewok](https://www.serverless.com/).
+A layer called `image-magick-aws-lambda-layer` will be published with [Serverless Framework](https://www.serverless.com/) v4.
+
+Serverless Framework v4 requires Node.js 18.17 or later and a license key.
+Set the license key (the same one used by keihi-lambda) as an environment variable before running the release command.
 
 ```sh
+export SERVERLESS_LICENSE_KEY=...
+
 npm install
 npm run release
 
