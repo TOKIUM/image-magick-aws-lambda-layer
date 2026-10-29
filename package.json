@@ -6,7 +6,7 @@
   "engines": {
     "npm": ">= 7.0.0"
   },
-  "description": "AWS Lambda layer to provide ImaegMagick",
+  "description": "AWS Lambda layer to provide ImageMagick",
   "scripts": {
     "prebuild": "rm -rf build && mkdir -p build/bin",
     "build": "docker build -t image-magick-aws-lambda-layer . && CID=$(docker create image-magick-aws-lambda-layer:latest) && docker cp ${CID}:/opt/bin/ build && cd build && zip --symlinks -r artifacts.zip bin",
