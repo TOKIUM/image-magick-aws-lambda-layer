@@ -11,7 +11,7 @@
     "prebuild": "rimraf -r build && mkdir -p build/bin",
     "build": "docker build -t image-magick-aws-lambda-layer . && CID=$(docker create image-magick-aws-lambda-layer:latest) && docker cp ${CID}:/opt/bin/ build && cd build && zip --symlinks -r artifacts.zip bin",
     "prerelease": "npm run build",
-    "release": "sls deploy"
+    "release": "bash scripts/publish-layer.sh"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
