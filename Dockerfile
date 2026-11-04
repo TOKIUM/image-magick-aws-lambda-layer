@@ -192,7 +192,7 @@ ENV IMAGEMAGICK_VERSION 7.1.0-2
 ENV IMAGEMAGICK_SOURCE ImageMagick-${IMAGEMAGICK_VERSION}.tar.xz
 ENV IMAGEMAGICK_SHA256 039006f616bb326598e7b910932694e2a3ca925586560e1b8d153a7048f52980
 
-RUN curl -LO https://download.imagemagick.org/ImageMagick/download/releases/${IMAGEMAGICK_SOURCE} && \
+RUN curl -LO https://download.imagemagick.org/archive/releases/${IMAGEMAGICK_SOURCE} && \
   sha256sum ${IMAGEMAGICK_SOURCE} && \
   (test "$(sha256sum ${IMAGEMAGICK_SOURCE})" = "${IMAGEMAGICK_SHA256}  ${IMAGEMAGICK_SOURCE}" || { echo 'Checksum Failed'; exit 1; }) && \
   tar xf ${IMAGEMAGICK_SOURCE} && \
